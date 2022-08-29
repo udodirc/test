@@ -10,9 +10,9 @@ import { Role } from './roles/roles.model';
 import { UserRoles } from './roles/user-roles.model';
 import { AuthModule } from './auth/auth.module';
 import { PostsModule } from './posts/posts.module';
-import { Post } from "./posts/posts.model";
+import { Post } from './posts/posts.model';
 import { FilesModule } from './files/files.module';
-import { ServeStaticModule } from "@nestjs/serve-static";
+import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 
 @Module({
