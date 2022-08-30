@@ -35,7 +35,7 @@ export class Post extends Model<Post, PostCreationAttr> {
   @Column({ type: DataType.STRING, allowNull: null })
   content: string;
 
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING, allowNull: null })
   image: string;
 
   @ForeignKey(() => User)

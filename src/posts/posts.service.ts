@@ -13,6 +13,7 @@ export class PostsService {
 
   async create(dto: CreatePostDto, image: any) {
     const fileName = await this.fileService.createFile(image);
+    dto.userID = +dto.userID;
     const post = this.postRepository.create({ ...dto, image: fileName });
 
     return post;
