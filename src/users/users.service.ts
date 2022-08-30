@@ -5,6 +5,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { RolesService } from '../roles/roles.service';
 import { AddRoleDto } from '../roles/dto/add-role.dto';
 import { BanUserDto } from '../roles/dto/ban-user.dto';
+import { UpdateUserDto } from "./dto/update-user.dto";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UsersService {
@@ -13,13 +15,51 @@ export class UsersService {
     private roleService: RolesService,
   ) {}
 
-  async createUser(dto: CreateUserDto) {
+  async create(dto: CreateUserDto) {
     const user = await this.userRepository.create(dto);
     const role = await this.roleService.getRoleByValue('admin');
     await user.$set('roles', [role.id]);
     user.roles = [role];
 
     return user;
+  }
+
+  async show(id: number) {
+    const user = await this.userRepository.findByPk(id);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return user;
+  }
+
+  async update(id: number, dto: UpdateUserDto) {
+    const user = await this.userRepository.findByPk(id);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    user.email = dto.email;
+    user.password = await bcrypt.hash(dto.password, 5);
+    await user.save();
+
+    return user;
+  }
+
+  async delete(id: number) {
+    const user = await this.userRepository.findByPk(id);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return await this.userRepository.destroy({
+      where: {
+        id: id
+      }
+    });
   }
 
   async getAllUsers() {

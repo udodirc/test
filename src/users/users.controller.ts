@@ -1,8 +1,8 @@
 import {
   Body,
-  Controller,
-  Get,
-  Post,
+  Controller, Delete,
+  Get, Param,
+  Post, Put,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -14,6 +14,7 @@ import { Roles } from '../auth/roles-auth.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { AddRoleDto } from '../roles/dto/add-role.dto';
 import { BanUserDto } from '../roles/dto/ban-user.dto';
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @ApiTags('Users')
 @Controller('users')
@@ -24,7 +25,28 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @Post()
   create(@Body() userDto: CreateUserDto) {
-    return this.userService.createUser(userDto);
+    return this.userService.create(userDto);
+  }
+
+  @ApiOperation({ summary: 'Show user' })
+  @ApiResponse({ status: 200, type: User })
+  @Post('/:id')
+  show(@Param('id') id: number) {
+    return this.userService.show(id);
+  }
+
+  @ApiOperation({ summary: 'Update user' })
+  @ApiResponse({ status: 200, type: User })
+  @Put('/:id')
+  update(@Param('id') id: number, @Body() userDto: UpdateUserDto) {
+    return this.userService.update(id, userDto);
+  }
+
+  @ApiOperation({ summary: 'Delete user' })
+  @ApiResponse({ status: 200, })
+  @Delete('/:id')
+  delete(@Param('id') id: number) {
+    return this.userService.delete(id);
   }
 
   @ApiOperation({ summary: 'Get all users' })
