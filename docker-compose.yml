@@ -1,29 +1,34 @@
-version: '2'
+version: "3.0"
 
 services:
-  mariadb:
-    image: docker.io/bitnami/mariadb:10.6
-    environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=no
-      - MARIADB_ROOT_USER=root
-      - MARIADB_ROOT_PASSWORD=password
-      - MARIADB_USER=bn_myapp
-      - MARIADB_PASSWORD=password
-      - MARIADB_DATABASE=bitnami_myapp
-    ports:
-      - "30306:3306"
-  myapp:
-    image: docker.io/bitnami/laravel:9
-    ports:
-      - '8000:8000'
-    environment:
-      - DB_HOST=mariadb
-      - DB_PORT=3306
-      - DB_USERNAME=bn_myapp
-      - DB_PASSWORD=password
-      - DB_DATABASE=bitnami_myapp
+  main:
+    container_name: server
+    build:
+      context: .
+    env_file:
+      - .development.env
     volumes:
-      - './test:/app'
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 5000:5000
+      - 9229:9229
+    command: npm run start:dev
     depends_on:
-      - mariadb
+      - postgres
+    restart: always
+  postgres:
+    container_name: postgres
+    image: postgres:12
+    env_file:
+      - .development.env
+    environment:
+      - PG_DATA:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:
