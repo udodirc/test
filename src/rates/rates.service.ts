@@ -10,6 +10,15 @@ export class RatesService {
         @InjectModel(Rate) private rateRepository: typeof Rate
     ) {}
 
+    async all() {
+        return await this.rateRepository.findAll({
+            raw: true,
+            order: [
+                ['day', 'ASC']
+            ]
+        });
+    }
+
     async create(dto: CreateRateDto) {
         return  this.rateRepository.create(dto);
     }

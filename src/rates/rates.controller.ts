@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, UseGuards} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { RatesService } from "./rates.service";
 import { Rate } from "./rates.model";
@@ -9,6 +9,13 @@ import { UpdateRateDto } from "./dto/update-rate.dto";
 @Controller('rates')
 export class RatesController {
     constructor(private rateService: RatesService){}
+
+    @ApiOperation({ summary: 'Get all rates' })
+    @ApiResponse({ status: 200, type: [Rate] })
+    @Get()
+    index() {
+        return this.rateService.all();
+    }
 
     @ApiOperation({ summary: 'Create rate' })
     @ApiResponse({ status: 200, type: Rate })

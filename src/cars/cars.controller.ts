@@ -19,7 +19,7 @@ export class CarsController {
     }
 
     @ApiOperation({ summary: 'Rent car' })
-    @ApiResponse({ status: 200, type: RentCar })
+    @ApiResponse({ status: 201, type: RentCar })
     @Post('/rent-car')
     rent(@Body() dto: RentCarDto) {
         return this.carsService.rent(dto);

@@ -2,13 +2,20 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsNumber, IsString} from "class-validator";
 
 export class RentCarDto {
-    @ApiProperty({ example: '03-04-2022', description: 'Start rent date' })
+    @ApiProperty({ example: '2022-04-03', description: 'Start rent date' })
     @IsNotEmpty()
     @IsString({ message: 'Name must be string' })
-    readonly rent_start: string;
+    rent_start: Date;
 
-    @ApiProperty({ example: '18-04-2022', description: 'End rent date' })
+    @ApiProperty({ example: '2022-04-18', description: 'End rent date' })
     @IsNotEmpty()
     @IsString({ message: 'Name must be string' })
-    readonly rent_end: string;
+    rent_end: Date;
+
+    @ApiProperty({ example: 4, description: 'Car ID' })
+    @IsNotEmpty()
+    @IsNumber()
+    carID: number;
+
+    amount: number;
 }

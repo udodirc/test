@@ -1,10 +1,11 @@
 import {
     Column,
-    DataType,
+    DataType, HasMany,
     Model,
     Table,
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
+import { RentCar } from "./rent-car.model";
 
 interface CarCreationAttr {
     name: string;
@@ -29,4 +30,7 @@ export class Car extends Model<Car, CarCreationAttr> {
     @ApiProperty({ example: '888 AB', description: 'Car number plate' })
     @Column({ type: DataType.STRING, allowNull: null})
     number_plate: string;
+
+    @HasMany(() => RentCar)
+    rents: RentCar[];
 }

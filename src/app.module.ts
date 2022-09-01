@@ -17,7 +17,8 @@ import { CarsModule } from './cars/cars.module';
 import { RatesModule } from './rates/rates.module';
 import { Car } from "./cars/cars.model";
 import * as path from 'path';
-import {Rate} from "./rates/rates.model";
+import { Rate } from "./rates/rates.model";
+import { RentCar } from "./cars/rent-car.model";
 
 @Module({
   controllers: [AppController],
@@ -31,7 +32,7 @@ import {Rate} from "./rates/rates.model";
       username: process.env.POSTGRES_USER,
       password: process.env.POSGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, UserRoles, Post, Car, Rate],
+      models: [User, Role, UserRoles, Post, Car, Rate, RentCar],
       autoLoadModels: true,
     }),
     ServeStaticModule.forRoot({

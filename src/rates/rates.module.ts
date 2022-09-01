@@ -7,6 +7,7 @@ import { Rate } from "./rates.model";
 @Module({
   providers: [RatesService],
   controllers: [RatesController],
-  imports: [SequelizeModule.forFeature([Rate])]
+  imports: [SequelizeModule.forFeature([Rate])],
+  exports: [RatesService]
 })
 export class RatesModule {}
